@@ -65,6 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C">
 
@@ -88,6 +92,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
                     app:passwordToggleEnabled="true">
@@ -109,6 +117,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
                     app:passwordToggleEnabled="true">
@@ -123,27 +135,44 @@
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:id="@+id/errmsg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="Error"
+                    android:textAlignment="center"
                     android:textColor="#FF0000"
                     android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:padding="3dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/touserdetailspage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_bg"
                 android:text="Continue"
                 android:textSize="30sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/loginpage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/loginpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:singleLine="false"
+                android:text="Have an Account? Login here."
+                android:textColor="#204D99"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FCFCFC"
     tools:context=".authentication.MainActivity">
 
     <LinearLayout
@@ -22,33 +23,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@drawable/user"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/choose_profile"
-                android:textColor="#247FFE"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profilepic"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilepic"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/user" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/choose_profile"
+                    android:textColor="#247FFE"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -65,6 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C">
 
@@ -88,6 +92,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
                     app:passwordToggleEnabled="false">
@@ -97,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Username"
+                        android:hint="Username : "
                         android:inputType="text"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
@@ -109,6 +117,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
                     app:passwordToggleEnabled="false">
@@ -131,7 +143,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:background="@drawable/button_bg"
                 android:text="Create Account"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

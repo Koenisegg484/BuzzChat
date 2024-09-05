@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Item directly on the menu bar -->
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
+
+    <!-- Items in the overflow menu -->
+    <item
+        android:id="@+id/action_view_profile"
+        android:icon="@drawable/person"
+        android:title="Profile"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/setting"
+        android:title="Log out"
+        app:showAsAction="never" />
+</menu>

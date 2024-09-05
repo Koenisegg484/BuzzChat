@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Gradient background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#90e0ef"
+                android:centerColor="#00b4d8"
+                android:endColor="#0077b6"
+                android:angle="45"/>
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+
+    <!-- Light overlay for depth and soft glow effect -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#33ffffff"
+            android:endColor="@android:color/transparent"
+            android:angle="45" />
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+
+    <!-- Optional: Border around the card for emphasis -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/>
+            <corners android:radius="20dp"/>
+            <stroke
+                android:width="1dp"
+                android:color="#0077b6" />
+        </shape>
+    </item>
+
+</layer-list>

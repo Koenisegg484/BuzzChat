@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FCFCFC"
     tools:context=".authentication.LoginActivity">
 
     <LinearLayout
@@ -20,7 +21,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -30,7 +32,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/otpimage" />
+                app:srcCompat="@drawable/login" />
 
             <TextView
                 android:id="@+id/textView"
@@ -50,22 +52,27 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/signupbutton"
+                app:layout_constraintBottom_toTopOf="@+id/loginbutton"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout"
+                    android:id="@+id/textInputLayout11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/useremail"
+                        android:id="@+id/loginemail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -73,52 +80,46 @@
                         android:lines="1"
                         android:maxLength="100"
                         android:maxLines="1"
-                        android:paddingStart="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="15dp"
-                        android:paddingBottom="10dp"
                         android:singleLine="true"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout2"
+                    android:id="@+id/textInputLayout12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/inpput_edittext_bg"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/userPassword"
+                        android:id="@+id/loginpass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:contextClickable="false"
-                        android:cursorVisible="false"
                         android:hint="Password : "
                         android:inputType="textPassword"
-                        android:paddingStart="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="15dp"
-                        android:paddingBottom="10dp"
-                        android:singleLine="true"
-                        android:soundEffectsEnabled="true"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/signupbutton"
+                android:id="@+id/loginbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:background="@drawable/button_bg"
                 android:text="Log in"
+                android:textColor="#FFFFFF"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
