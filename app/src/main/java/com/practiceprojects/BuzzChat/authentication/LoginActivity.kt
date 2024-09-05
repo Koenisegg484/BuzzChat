@@ -22,20 +22,23 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        supportActionBar!!.hide()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
 
-        var useremail = binding.useremail.text.toString()
-        var userpassword = binding.userPassword.text.toString()
 
         binding.loginbutton.setOnClickListener{
+
+            var useremail = binding.loginemail.text.toString()
+            var userpassword = binding.loginpass.text.toString()
+            println(useremail + "  this  " + userpassword)
             auth.signInWithEmailAndPassword(useremail, userpassword).addOnCompleteListener {task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("Message", "signInWithEmail:success")
+                    val intent = Intent(this@LoginActivity, UsersChattingPageActivity::class.java)
+                    startActivity(intent)
                     finish()
                 } else {
                     // If sign in fails, display a message to the user.

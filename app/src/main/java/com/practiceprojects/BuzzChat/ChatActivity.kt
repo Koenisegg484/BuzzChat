@@ -28,6 +28,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.UUID
 
+
 class ChatActivity : AppCompatActivity() {
     lateinit var binding: ActivityChatBinding
     lateinit var messages : ArrayList<Message>
@@ -47,7 +48,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        supportActionBar!!.hide()
+//        supportActionBar!!.hide()
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -112,29 +113,31 @@ class ChatActivity : AppCompatActivity() {
 
         binding.sendbutton.setOnClickListener{
             var msgtxt:String = binding.editTextMessage.text.toString()
-            val date = Date()
-            val message = Message(msgtxt, senderUid,date.time)
+            if(!msgtxt.isEmpty()) {
 
-            binding.editTextMessage.setText("")
-            val randomkey = reference.push().key
-            val lastMsgObj = HashMap<String, Any>()
-            lastMsgObj["lastmsg"] = message.message
-            lastMsgObj["msgtime"] = date.time
+                val date = Date()
+                val message = Message(msgtxt, senderUid, date.time)
 
-            reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
-            reference.child("CHATS").child(receverRoom).updateChildren(lastMsgObj)
+                binding.editTextMessage.setText("")
+                val randomkey = reference.push().key
+                val lastMsgObj = HashMap<String, Any>()
+                lastMsgObj["lastmsg"] = message.message!!
+                lastMsgObj["msgtime"] = date.time
 
-            reference.child("CHATS").child(senderRoom)
-                .child("MESSAGES")
-                .child(randomkey!!)
-                .setValue(message)
-                .addOnSuccessListener {
-                    reference.child("CHATS").child(receverRoom)
-                        .child("MESSAGES")
-                        .child(randomkey!!)
-                        .setValue(message)
-                }
+                reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
+                reference.child("CHATS").child(receverRoom).updateChildren(lastMsgObj)
 
+                reference.child("CHATS").child(senderRoom)
+                    .child("MESSAGES")
+                    .child(randomkey!!)
+                    .setValue(message)
+                    .addOnSuccessListener {
+                        reference.child("CHATS").child(receverRoom)
+                            .child("MESSAGES")
+                            .child(randomkey!!)
+                            .setValue(message)
+                    }
+            }
         }
 
         binding.attachbutton.setOnClickListener {
@@ -162,7 +165,7 @@ class ChatActivity : AppCompatActivity() {
             }
         })
 
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
+//        supportActionBar!!.setDisplayShowTitleEnabled(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -187,7 +190,7 @@ class ChatActivity : AppCompatActivity() {
                                 binding.editTextMessage.setText("")
                                 val randomkey = reference.push().key
                                 val lastMsgObj = HashMap<String, Any>()
-                                lastMsgObj["lastmsg"] = msg.message
+                                lastMsgObj["lastmsg"] = msg.message!!
                                 lastMsgObj["msgtime"] = date.time
 
                                 reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
@@ -200,7 +203,7 @@ class ChatActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         reference.child("CHATS").child(receverRoom)
                                             .child("MESSAGES")
-                                            .child(randomkey!!)
+                                            .child(randomkey)
                                             .setValue(msg)
                                     }
                             }

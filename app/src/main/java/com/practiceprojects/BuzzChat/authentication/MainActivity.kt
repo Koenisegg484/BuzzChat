@@ -27,16 +27,16 @@ import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
 
-    val myCalendar = Calendar.getInstance()
-    lateinit var auth: FirebaseAuth;
-    lateinit var db : FirebaseDatabase;
-    lateinit var storageReference: FirebaseStorage;
-    lateinit var binding: ActivityMainBinding;
-    lateinit var binding1 : ActivityUserDetailsBinding;
-    lateinit var selectedImageUri: Uri
-    var useremail :String = ""
-    var act = false
-    var imageflag : Boolean = false
+    private val myCalendar: Calendar = Calendar.getInstance()
+    private lateinit var auth: FirebaseAuth;
+    private lateinit var db : FirebaseDatabase;
+    private lateinit var storageReference: FirebaseStorage;
+    private lateinit var binding: ActivityMainBinding;
+    private lateinit var binding1 : ActivityUserDetailsBinding;
+    private lateinit var selectedImageUri: Uri
+    private var useremail :String = ""
+    private var act = false
+    private var imageflag : Boolean = false
 
 
     public override fun onStart() {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            var intent = Intent(this, UsersChattingPageActivity::class.java)
+            val intent = Intent(this, UsersChattingPageActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
 //        For the user details page
 //        DatePicker
-        var date =  DatePickerDialog.OnDateSetListener{ datePicker: DatePicker, year: Int, month: Int, day: Int ->
+        val date =  DatePickerDialog.OnDateSetListener{ datePicker: DatePicker, year: Int, month: Int, day: Int ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH,month);
             myCalendar.set(Calendar.DAY_OF_MONTH,day);
@@ -116,12 +116,27 @@ class MainActivity : AppCompatActivity() {
 
             if (imageflag) {
                 val randomId: UUID = UUID.randomUUID()
-                val imageName: String = "ProfilePictures/$randomId.jpg"
+                val imageName: String = "ProfilePictures/$randomId$username.jpg"
                 val imageRef: StorageReference = storageReference.getReference(imageName)
 
                 imageRef.putFile(selectedImageUri).addOnSuccessListener {
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         profileimage = uri.toString()
+
+                        val newUser = User(
+                            name,
+                            username,
+                            useremail,
+                            birthdate,
+                            profileimage
+                        )
+                        registerUser(newUser, userpassword, profileimage) { success, message ->
+                            if (success) {
+                                println("Success: $message")
+                            } else {
+                                println("Error: $message")
+                            }
+                        }
                     }.addOnFailureListener {
                         // Handle any errors with retrieving the download URL
                         println("Error: ${it.message}")
@@ -129,21 +144,6 @@ class MainActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     // Handle any errors with uploading the image
                     println("Error: ${it.message}")
-                }
-
-                val newUser = User(
-                    name,
-                    username,
-                    useremail,
-                    birthdate,
-                    profileimage
-                )
-                registerUser(newUser, userpassword, profileimage) { success, message ->
-                    if (success) {
-                        println("Success: $message")
-                    } else {
-                        println("Error: $message")
-                    }
                 }
             } else {
                 profileimage = "No image"
@@ -163,10 +163,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
     }
 
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
     override fun onBackPressed() {
         if (act){
             setContentView(binding.root)
@@ -178,15 +178,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
             if(requestCode == 1 && resultCode == RESULT_OK && data.data != null){
                 selectedImageUri = data.data!!
                 imageflag = true
-                selectedImageUri.let {
-                    Glide.with(this@MainActivity).load(selectedImageUri).into(binding1.profilepic)
-                }
+                Glide.with(this@MainActivity).load(selectedImageUri).into(binding1.profilepic)
             }
         }
     }
@@ -216,20 +215,22 @@ class MainActivity : AppCompatActivity() {
         return true
     }
     private fun updateDate():String{
-        var dateformat = "MM/dd/yyyy"
-        var simpledateFormat = SimpleDateFormat(dateformat, Locale.US)
+        val dateformat = "DD/MM/yyyy"
+        val simpledateFormat = SimpleDateFormat(dateformat, Locale.US)
         binding1.birthdate.setText(simpledateFormat.format(myCalendar.time))
         return binding1.birthdate.text.toString()
     }
 
     private fun addUserDetails(user: User, uid: String,profileUrl : String, callback: (Boolean, String) -> Unit){
-        var userMap = hashMapOf(
+        val userMap = hashMapOf(
             "name" to user.name,
             "username" to user.username,
             "email" to user.email,
             "birthdate" to user.birthdate,
             "profileUrl" to user.profileUrl
         )
+
+        println(userMap)
 
         db.getReference().child("USERS").child(uid).setValue(userMap)
         db.getReference().child("USERS").child(uid).child("profileUrl").setValue(profileUrl)
