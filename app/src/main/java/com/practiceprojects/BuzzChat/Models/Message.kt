@@ -1,11 +1,11 @@
 package com.practiceprojects.BuzzChat.Models
 
 class Message {
-    lateinit var messageId : String
-    lateinit var message : String
-    lateinit var senderId : String
-    lateinit var recieverId : String
-    lateinit var imageurl : String
+    var messageId : String?= null
+    var message : String?= null
+    var senderId : String?= null
+    var recieverId : String?= null
+    var imageurl : String?= null
     var timestamp: Long = 0
 
     constructor()

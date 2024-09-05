@@ -20,7 +20,7 @@ class User {
         this.username = username
         this.email = email
         this.birthdate = birthdate
-        this.profileUrl
+        this.profileUrl = profileurl
     }
 
 
