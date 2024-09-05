@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FEFEFE"
     tools:context=".authentication.MainActivity">
 
     <LinearLayout
@@ -23,32 +22,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/user"
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                app:srcCompat="@drawable/register" />
+                app:layout_constraintVertical_bias="0.5" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Acount"
+                android:layout_marginTop="10dp"
+                android:text="@string/choose_profile"
                 android:textColor="#247FFE"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/profilepic"
+                app:layout_constraintVertical_bias="0.5" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/touserdetailspage"
+                app:layout_constraintBottom_toTopOf="@+id/signupbutton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -69,13 +69,13 @@
                     app:hintTextColor="#2C2C2C">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/useremail"
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Email : "
+                        android:hint="Name :"
                         android:lines="1"
-                        android:maxLength="100"
+                        android:maxLength="50"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#FFFFFF"
@@ -90,15 +90,15 @@
                     android:background="@drawable/inpput_edittext_bg"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/userPassword"
+                        android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Password : "
-                        android:inputType="textPassword"
+                        android:hint="Username"
+                        android:inputType="text"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -111,35 +111,27 @@
                     android:background="@drawable/inpput_edittext_bg"
                     app:counterOverflowTextAppearance="@style/TextAppearance.AppCompat.Large"
                     app:hintTextColor="#2C2C2C"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/confirmPassword"
+                        android:id="@+id/birthdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Confirm Password : "
-                        android:inputType="textPassword"
+                        android:hint="Date Of Birth : "
+                        android:inputType="date"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-                <TextView
-                    android:id="@+id/errmsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Error"
-                    android:textColor="#FF0000"
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:padding="3dp"
-                    android:visibility="gone"/>
+
             </LinearLayout>
 
             <Button
-                android:id="@+id/touserdetailspage"
+                android:id="@+id/signupbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Continue"
+                android:layout_marginBottom="20dp"
+                android:text="Create Account"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

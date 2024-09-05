@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">EmailVerification</string>
+    <string name="app_name">BuzzChat</string>
+    <string name="choose_profile">Choose Profile</string>
 </resources>
