@@ -2,6 +2,7 @@ package com.practiceprojects.BuzzChat
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -34,6 +35,7 @@ class ChatActivity : AppCompatActivity() {
     lateinit var messages : ArrayList<Message>
     lateinit var senderRoom:String
     lateinit var receverRoom :String
+    var selectedImage: Uri?= null
 
     var database:FirebaseDatabase = FirebaseDatabase.getInstance()
     var reference = database.reference
@@ -54,7 +56,6 @@ class ChatActivity : AppCompatActivity() {
 
         messages = ArrayList<Message>()
 
-        val name = intent.getStringExtra("oname")
         receiverUid = intent.getStringExtra("ouid").toString()
         senderUid = FirebaseAuth.getInstance().uid.toString()
         val profile = intent.getStringExtra("profiledp")
@@ -69,6 +70,7 @@ class ChatActivity : AppCompatActivity() {
 
         reference.child("STATUS").child(receiverUid)
             .addValueEventListener(object :ValueEventListener{
+                @SuppressLint("SetTextI18n")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
                         val status = snapshot.getValue(String::class.java)
@@ -76,11 +78,10 @@ class ChatActivity : AppCompatActivity() {
                             binding.status.visibility = View.GONE
                         }else{
                             binding.status.visibility = View.VISIBLE
-                            binding.status.setText("Online")
+                            binding.status.text = "Online"
                         }
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {}
             })
 
@@ -104,41 +105,8 @@ class ChatActivity : AppCompatActivity() {
                         adapter!!.notifyDataSetChanged()
                     }
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
+                override fun onCancelled(error: DatabaseError) {}
             })
-
-        binding.sendbutton.setOnClickListener{
-            var msgtxt:String = binding.editTextMessage.text.toString()
-            if(!msgtxt.isEmpty()) {
-
-                val date = Date()
-                val message = Message(msgtxt, senderUid, date.time)
-
-                binding.editTextMessage.setText("")
-                val randomkey = reference.push().key
-                val lastMsgObj = HashMap<String, Any>()
-                lastMsgObj["lastmsg"] = message.message!!
-                lastMsgObj["msgtime"] = date.time
-
-                reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
-                reference.child("CHATS").child(receverRoom).updateChildren(lastMsgObj)
-
-                reference.child("CHATS").child(senderRoom)
-                    .child("MESSAGES")
-                    .child(randomkey!!)
-                    .setValue(message)
-                    .addOnSuccessListener {
-                        reference.child("CHATS").child(receverRoom)
-                            .child("MESSAGES")
-                            .child(randomkey!!)
-                            .setValue(message)
-                    }
-            }
-        }
 
         binding.attachbutton.setOnClickListener {
             val intent = Intent()
@@ -165,50 +133,85 @@ class ChatActivity : AppCompatActivity() {
             }
         })
 
-//        supportActionBar!!.setDisplayShowTitleEnabled(false)
-    }
+        binding.iconCamera.setOnClickListener {
+            val intent = Intent(this@ChatActivity, CameraLayout::class.java)
+            startActivity(intent)
+        }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == 45 && requestCode == RESULT_OK && data != null){
-            if(data.data != null){
-                val selectedImage = data.data
-                val imagename:String = "InMessageImages/" + UUID.randomUUID() + ".jpg"
-                var ref = storageReference.child("CHATS")
-                    .child(imagename)
-                ref.putFile(selectedImage!!)
-                    .addOnCompleteListener {task ->
-                        if(task.isSuccessful){
+        binding.sendbutton.setOnClickListener {
+            val msgtxt: String = binding.editTextMessage.text.toString()
+
+            if (msgtxt.isNotEmpty() || selectedImage != null) {  // Ensure at least a message or image is present
+                val date = Date()
+                val message = Message(msgtxt, senderUid, date.time)  // Create message object
+                binding.editTextMessage.setText("")  // Clear the message input field
+                val randomkey = reference.push().key
+                val lastMsgObj = HashMap<String, Any>()
+                lastMsgObj["lastmsg"] = msgtxt.ifEmpty { "photo" }
+                lastMsgObj["msgtime"] = date.time
+
+                // If an image is selected
+                if (selectedImage != null) {
+                    val imagename: String = "InMessageImages/" + UUID.randomUUID() + ".jpg"
+                    val ref = storageReference.child("CHATS").child(imagename)
+
+                    // Upload the image
+                    ref.putFile(selectedImage!!).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
                             ref.downloadUrl.addOnSuccessListener { uri ->
                                 val filepath = uri.toString()
-                                val msgTxt : String = binding.editTextMessage.text.toString()
-                                val date = Date()
+                                message.imageurl = filepath  // Set the image URL in the message
 
-                                val msg = Message(msgTxt, senderUid, date.time)
-                                msg.message = "photo"
-                                msg.imageurl = filepath
-                                binding.editTextMessage.setText("")
-                                val randomkey = reference.push().key
-                                val lastMsgObj = HashMap<String, Any>()
-                                lastMsgObj["lastmsg"] = msg.message!!
-                                lastMsgObj["msgtime"] = date.time
-
+                                // Update the last message and time after image is uploaded
                                 reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
                                 reference.child("CHATS").child(receverRoom).updateChildren(lastMsgObj)
 
+                                // Send the message with image URL
                                 reference.child("CHATS").child(senderRoom)
                                     .child("MESSAGES")
                                     .child(randomkey!!)
-                                    .setValue(msg)
+                                    .setValue(message)
                                     .addOnSuccessListener {
                                         reference.child("CHATS").child(receverRoom)
                                             .child("MESSAGES")
                                             .child(randomkey)
-                                            .setValue(msg)
+                                            .setValue(message)
                                     }
                             }
                         }
                     }
+                    selectedImage = null  // Clear the selected image after sending
+                    binding.imgtosend.visibility = View.GONE
+                } else {
+                    // If no image is selected, send the text message immediately
+                    reference.child("CHATS").child(senderRoom).updateChildren(lastMsgObj)
+                    reference.child("CHATS").child(receverRoom).updateChildren(lastMsgObj)
+
+                    reference.child("CHATS").child(senderRoom)
+                        .child("MESSAGES")
+                        .child(randomkey!!)
+                        .setValue(message)
+                        .addOnSuccessListener {
+                            reference.child("CHATS").child(receverRoom)
+                                .child("MESSAGES")
+                                .child(randomkey)
+                                .setValue(message)
+                        }
+                }
+            }
+        }
+
+
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 25 && resultCode == RESULT_OK && data != null){
+            if(data.data != null){
+                selectedImage = data.data
+                binding.imgtosend.visibility = View.VISIBLE
+                Glide.with(this@ChatActivity).load(selectedImage).placeholder(R.drawable.image).into(binding.imgtosend)
             }
         }
     }

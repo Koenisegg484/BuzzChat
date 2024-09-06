@@ -66,7 +66,7 @@ class MessageAdapter (var context: Context, messages:ArrayList<Message>, senderR
         val msg = messages[position]
         if(holder.javaClass == SentMsgHolder::class.java){
             val viewholder = holder as SentMsgHolder
-            if(msg.message.equals("photo")){
+            if(msg.imageurl != null){
                 viewholder.binder.image.visibility = View.VISIBLE
 //                viewholder.binder.image.visibility = View.GONE
                 Glide.with(context).load(msg.imageurl).placeholder(R.drawable.image).into(viewholder.binder.image)
